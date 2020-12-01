@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import zomato from "../api/zomato";
-import { Object } from "core-js";
 
 
 export default () => {
-  const [results, setResults] = useState("");
+  const [results, setResults] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
 
   const SearchApi = async searchTerm => {
-      console.log("haiii  here")
     try {
       const response = await zomato.get("/search", {
         params: {
