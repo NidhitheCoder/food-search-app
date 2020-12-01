@@ -17,8 +17,7 @@ const ResultDetail = ({ result }) => {
       />
       <Text style={styles.nameStyles}>{result.name}</Text>
       <Text>
-        {result.user_rating.aggregate_rating} Stars, {result.user_rating.votes}
-        Reviews
+        {result.user_rating.aggregate_rating} Stars, {result.user_rating.votes} Reviews
       </Text>
     </View>
   );
@@ -26,7 +25,7 @@ const ResultDetail = ({ result }) => {
 
 const styles = StyleSheet.create({
   containerStyle: {
-    marginLeft: 15
+    marginHorizontal: 10
   },
   imageStyle: {
     width: 250,
