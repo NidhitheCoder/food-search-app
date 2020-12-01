@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import zomato from "../api/zomato";
 
-
 export default () => {
   const [results, setResults] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
