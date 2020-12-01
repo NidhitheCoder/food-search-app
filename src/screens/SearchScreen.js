@@ -1,49 +1,47 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import SearchBar from "../components/SearchBar";
-import yelp from "../api/yelp";
+import useResults from "../hooks/useResults";
+import ResultList from "../components/ResultsList";
 
 const SearchScreen = () => {
   const [term, setTerm] = useState("");
-  const [results, setResults] = useState([]);
-  const [errorMsg, setErrMsg] = useState("");
+  const [SearchApi, results, errorMsg] = useResults();
 
-  const SearchApi = async searchTerm => {
-    try {
-      const response = await yelp.get("/search", {
-        params: {
-          q: searchTerm
-        }
-      });
-      setResults(Object.values(response.data.restaurants));
-      setErrMsg("");
-    } catch (err) {
-      setErrMsg("Something went wrong");
-    }
+  const filterResultByPrice = priceRange => {
+    return results.filter(
+      result => result.restaurant.price_range === priceRange
+    );
   };
 
-  // SearchApi('rice'); // this is bad code and it couses infinit loop
-  useEffect(() => {
-    SearchApi("rice");
-  }, []);
-
   return (
-    <View>
+    <View style={{flex:1}}>
       <SearchBar
         term={term}
         onTermChange={setTerm}
         onTermSubmit={() => SearchApi(term)}
       />
-
       {errorMsg ? (
         <Text>{errorMsg}</Text>
       ) : (
-        <Text>We have found {results.length} results </Text>
+        <Text style={styles.textStyle}>We have found {results.length} results. </Text>
       )}
+
+      <ScrollView>
+        <ResultList results={filterResultByPrice(1)} title="Cost Effective" />
+        <ResultList results={filterResultByPrice(2)} title="Bit Pricier" />
+        <ResultList results={filterResultByPrice(3)} title="Big Spenter" />
+        <ResultList results={filterResultByPrice(4)} title="Too much costly" />
+      </ScrollView>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  textStyle:{
+    margin:15,
+    color:'green'
+  }
+});
 
 export default SearchScreen;
