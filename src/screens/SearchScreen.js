@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import SearchBar from "../components/SearchBar";
 import useResults from "../hooks/useResults";
-import ResultList from "../components/resultsList";
+import ResultList from "../components/ResultsList";
 
 const SearchScreen = () => {
   const [term, setTerm] = useState("");
@@ -15,7 +15,7 @@ const SearchScreen = () => {
   };
 
   return (
-    <View>
+    <View style={{flex:1}}>
       <SearchBar
         term={term}
         onTermChange={setTerm}
@@ -27,10 +27,12 @@ const SearchScreen = () => {
         <Text>We have found {results.length} results </Text>
       )}
 
-      <ResultList results={filterResultByPrice(1)} title="Cost Effective" />
-      <ResultList results={filterResultByPrice(2)} title="Bit Pricier" />
-      <ResultList results={filterResultByPrice(3)} title="Big Spenter" />
-      <ResultList results={filterResultByPrice(4)} title="Too much costly" />
+      <ScrollView>
+        <ResultList results={filterResultByPrice(1)} title="Cost Effective" />
+        <ResultList results={filterResultByPrice(2)} title="Bit Pricier" />
+        <ResultList results={filterResultByPrice(3)} title="Big Spenter" />
+        <ResultList results={filterResultByPrice(4)} title="Too much costly" />
+      </ScrollView>
     </View>
   );
 };
